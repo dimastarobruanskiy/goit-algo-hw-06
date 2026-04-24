@@ -66,7 +66,10 @@ def show_all(book):
 
     return result.strip()
 
+@input_error
 def delete_contact(args, book):
     name = args[0]
+    if name not in book.data:
+        raise KeyError
     book.delete(name)
     return "Deleted."

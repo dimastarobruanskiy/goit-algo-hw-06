@@ -22,7 +22,7 @@ class Phone(Field):
         super().__init__(value)
 
     def validate(self, value):
-        return isinstance(value, str) and value.isdigit() and len(value) == 10
+        return isinstance(value, str) and value.isdigit()
 
 
 class Record:
@@ -33,12 +33,27 @@ class Record:
     def add_phone(self, phone):
         self.phones.append(Phone(phone))
 
+    def find_phone(self, phone):
+        for p in self.phones:
+            if p.value == phone:
+                return p
+        return None
+
+    def remove_phone(self, phone):
+        self.phones = [p for p in self.phones if p.value != phone]
+
     def edit_phone(self, old_phone, new_phone):
+        phone_validator = Phone.__new__(Phone)
+        if not phone_validator.validate(old_phone):
+            raise ValueError("Invalid phone number")
+        if not phone_validator.validate(new_phone):
+            raise ValueError("Invalid phone number")
+        
         for p in self.phones:
             if p.value == old_phone:
                 p.value = new_phone
                 break
-
+     
     def __str__(self):
         phones = "; ".join(p.value for p in self.phones)
         return f"Contact name: {self.name.value}, phones: {phones}"

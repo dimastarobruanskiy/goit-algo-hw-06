@@ -1,4 +1,4 @@
-from functions import add_contact, change_contact, show_phone, show_all, parse_input, input_error
+from functions import add_contact, change_contact, show_phone, show_all, parse_input, input_error, delete_contact
 from classes import AddressBook
 
 def main():
@@ -27,6 +27,8 @@ def main():
             print(show_phone(args, book))
         elif command == "all":
             print(show_all(book))
+        elif command == "delete":
+            print(delete_contact(args, book))
         else:
             print("Invalid command.")
 
