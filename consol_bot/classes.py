@@ -36,19 +36,16 @@ class Record:
         self.phones.append(Phone(phone))
 
     def edit_phone(self, old_phone, new_phone):
-        phone_to_edit = None
-
-        for p in self.phones:
-            if p.value == old_phone:
-                phone_to_edit = p
-                break
+        phone_to_edit = self.find_phone(old_phone)
 
         if phone_to_edit is None:
             raise ValueError("Old phone not found")
 
-        self.phones.remove(phone_to_edit)
-        self.phones.append(Phone(new_phone))
+        new_phone_obj = Phone(new_phone)
 
+        self.phones.remove(phone_to_edit)
+        self.phones.append(new_phone_obj)
+        
     def find_phone(self, phone):
         for p in self.phones:
             if p.value == phone:
@@ -79,3 +76,8 @@ class AddressBook(UserDict):
             del self.data[name]
         else:
             raise ValueError("Contact not found")
+        
+    def __str__(self):
+        if not self.data:
+            return "Address book is empty"
+        return "\n".join(str(record) for record in self.data.values())
